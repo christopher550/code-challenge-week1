@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Grade Calculator</title>
+  <style>
+    /* styling for the home page */
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      background: #d6ce82;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Container for the input and result */
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 320px;
+      text-align: center;
+    }
+
+    /* Input styling */
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 16px;
+      border: 2px solid #797676;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    /* Highlight input on focus */
+    input[type="number"]:focus {
+      border-color: #4a90e2;
+      outline: auto;
+    }
+
+    /* Button styling */
+    button {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 12px 0;
+      width: 100%;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Button hover effect */
+    button:hover {
+      background-color: hsl(118, 81%, 37%);
+    }
+
+    /* Result box styling */
+    #result {
+      margin-top: 20px;
+      font-weight: 100;
+      font-size: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none; /* Hidden until result is displayed */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Student Grade Calculator</h2>
+    <!-- Input field for marks -->
+    <input type="number" id="marksInput" placeholder="Enter marks eg. 90" min="0" max="100" />
+    <!-- Button for grade calculation -->
+    <button id="calculateBtn">Calculate Grade</button>
+    <!-- display the result -->
+  <script>   
+    // Function to determine grade depending on marks
+    function getGrade(mark) {
+      if (mark > 79) {
+        return 'A';
+      } else if (mark >= 60 && mark <= 79) {
+        return 'B';
+      } else if (mark >= 49 && mark <= 59) {
+        return 'C';
+      } else if (mark >= 40 && mark <= 49) {
+        return 'D';
+      } else {
+        return 'E';
+      }
+    }
+
+    // Get references to DOM elements
+    const marksInput = document.getElementById('marksInput');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resultDiv = document.getElementById('result');
+
+    // Add click event listener to the button
+    calculateBtn.addEventListener('click', () => {
+      const marks = parseFloat(marksInput.value);
+
+      // checks if it's a number and within 0-100
+      if (isNaN(marks) || marks < 0 || marks > 100) {
+        alert('Please enter a valid number between 0 and 100.');
+        marksInput.focus();
+        resultDiv.style.display = 'none'; // Hide result if invalid
+        return;
+      }
+
+      // Get the grade for the input marks 
+      const grade = getGrade(marks);
+
+      // Display the result 
+      resultDiv.textContent = `Marks: ${marks} — Grade: ${grade}`;
+      resultDiv.className = ''; // Reset classes
+      resultDiv.classList.add(`grade-${grade}`);
+      resultDiv.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

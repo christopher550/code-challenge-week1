@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Speed Detector points</title>
+  <style>
+    /*page styling */
+    body {
+      font-family: Arial, sans-serif;
+      background: #386b80;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 300px;
+      margin: 0;
+    }
+
+    /* Input field styling */
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 16px;
+      border: 2px solid #070303;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    button {
+      background-color: #0e881e;
+      color: rgb(7, 7, 7);
+      border: none;
+      padding: 12px 0;
+      width: 100%;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: alias;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Result box styling */
+    #result {
+      margin-top: 200px;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none; /* Hidden initially */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Speed Demerit Points Calculator</h2>
+    <!-- Input speed in km/h -->
+    <input type="number" id="speedInput" placeholder="Enter speed (km/h)" min="0" />
+    <button id="calculateBtn">Check Speed</button>
+    <!-- show result -->
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Function to calculate and display demerit points based on speed
+    function checkSpeed(speed) {
+      const speedLimit = 70; // Speed limit in km/h
+      const kmPerPoint = 5;  // 1 point for every 5 km/h above limit
+
+      // Reference to result div
+      const resultDiv = document.getElementById('result');
+
+      // If speed is less than speed limit display "Ok"
+      if (speed < speedLimit) {
+        resultDiv.textContent = "Ok";
+        resultDiv.className = "ok";
+        resultDiv.style.display = "block";
+      } else {
+        // Calculate how many km/h above the speed limit
+        const excessSpeed = speed - speedLimit;
+        // Calculate demerit points
+        const points = Math.floor(excessSpeed / kmPerPoint);
+
+        // If points exceed 12, license is suspended
+        if (points > 12) {
+          resultDiv.textContent = "License suspended";
+          resultDiv.className = "suspended";
+          resultDiv.style.display = "block";
+        } else {
+          // Otherwise, show the number of points
+          resultDiv.textContent = `Points: ${points}`;
+          resultDiv.className = "points";
+          resultDiv.style.display = "block";
+        }
+      }
+    }
+
+    // Get references to input and button elements
+    const speedInput = document.getElementById('speedInput');
+    const calculateBtn = document.getElementById('calculateBtn');
+
+    // Add click event listener to button
+    calculateBtn.addEventListener('click', () => {
+      // Parse the input value as a number
+      const speed = parseFloat(speedInput.value);
+
+      // Validate input: must be a number and non-negative
+      if (isNaN(speed) || speed < 0) {
+        alert("Please enter a valid non-negative speed.");
+        speedInput.focus();
+        return;
+      }
+
+      // Call the function to check speed and display result
+      checkSpeed(speed);
+    });
+  </script>
+</body>
+</html>
